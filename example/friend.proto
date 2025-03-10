@@ -1,0 +1,36 @@
+syntax ="proto3";
+package fixbug;
+
+//定义下面的选项，表示生成service服务类和rpc方法描述,默认是不生成的
+option cc_generic_services=true;
+
+message ResultCode{
+    int32 errcode=1;
+    bytes errmsg=2;
+}
+
+
+//定义请求消息类型
+message GetFriendsListRequest{
+    uint32 userid=1;
+}
+
+// message User{
+//     bytes name=1;
+//     uint32 age=2;
+//     enum Sex{
+//         MAN =0;
+//         WOMAN=1;
+//     }
+//     Sex sex=3;
+// }
+
+message GetFriendsListResponse{
+    ResultCode result=1;
+    repeated bytes friends=2;//使用repeated定义了一个列表类型
+}
+
+//好友模块
+service FriendServiceRpc{
+    rpc GetFriendsList(GetFriendsListRequest) returns(GetFriendsListResponse);
+}

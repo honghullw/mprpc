@@ -1,0 +1,63 @@
+syntax ="proto3";
+package fixbug;
+
+//定义下面的选项，表示生成service服务类和rpc方法描述,默认是不生成的
+option cc_generic_services=true;
+
+message ResultCode{
+    int32 errcode=1;
+    bytes errmsg=2;
+}
+
+//定义登录消息类型  1函数类型
+message LoginRequest
+{
+    bytes name=1;//第一个字段 string 和 bytes都是一样的，别的地方不用做任何修改，知识用bytes更快
+    bytes pwd=2;//第二个字段
+}
+
+//定义登录响应消息类型 2返回值类型
+message LoginResponse
+{
+    ResultCode result=1;
+    bool success=2;
+}
+
+message RegisterRequest{
+    uint32 id=1;
+    bytes name=2;
+    bytes pwd=3;
+}
+
+message RegisterResponse
+{
+    ResultCode result=1;
+    bool success=2;
+}
+
+// //定义请求消息类型
+// message GetFriendListsRequest{
+//     uint32 userid=1;
+// }
+
+// message User{
+//     bytes name=1;
+//     uint32 age=2;
+//     enum Sex{
+//         MAN =0;
+//         WOMAN=1;
+//     }
+//     Sex sex=3;
+// }
+
+// message GetFriendListsResponse{
+//     ResultCode result=1;
+//     repeated User friend_list=2;//使用repeated定义了一个列表类型
+// }
+
+//定义描述rpc方法的类型 - service 3函数名描述
+service UserServiceRpc{
+    rpc Login(LoginRequest) returns(LoginResponse);
+    rpc Register(RegisterRequest) returns(RegisterResponse);
+    // rpc GetFriendLists(GetFriendListsRequest) returns(GetFriendListsResponse);
+}
